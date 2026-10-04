@@ -5,3 +5,4 @@
 - Stdlib cloner in scripts/clone_site.py with SPA `--html` path.
 - 3D pass: harvest glTF, GLB, OBJ, FBX, USDZ, HDR, and splat URLs from HTML and JS; pull glTF buffers; write SCENE.md.
 - Identifies the modern web and graphics catalog from HTML, CSS, JS, and headers. Rebuilds use the detected stack. See references/stack-catalog.md.
+- Installed into the local skills directory. Added generate_standin.py, which the repo SKILL.md named but did not ship.
