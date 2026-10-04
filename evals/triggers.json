@@ -1,9 +1,12 @@
 {
   "skill": "site-clone",
   "test_cases": [
-    {"input": "Clone this site including all the images", "should_trigger": true},
-    {"input": "Extract the glb from this cloned site", "should_trigger": true},
-    {"input": "Generate a 3D stand-in for the missing model", "should_trigger": true},
-    {"input": "Write a poem about a website", "should_trigger": false}
+    {"input": "Clone this site design", "should_trigger": true},
+    {"input": "Extract the visual language of this URL into my app", "should_trigger": true},
+    {"input": "Pixel-match this marketing page", "should_trigger": true},
+    {"input": "Paste this URL and recreate the aesthetic, not their logo", "should_trigger": true},
+    {"input": "Write a poem about a website", "should_trigger": false},
+    {"input": "Forage GitHub for a scroll-trigger pattern I can adapt", "should_trigger": false},
+    {"input": "Build a pink handwritten scrapbook site", "should_trigger": false}
   ]
 }
