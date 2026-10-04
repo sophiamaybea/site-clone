@@ -1,6 +1,6 @@
 ---
 description: "Stack signatures clone_site.py matches in HTML, CSS, JS, and headers."
-connections: [boundaries, three-d]
+connections: [boundaries, three-d, tool-class]
 ---
 
 # Stack catalog
@@ -9,4 +9,4 @@ connections: [boundaries, three-d]
 
 Matched families: Next.js, React, Vue, Nuxt, Svelte, Three.js, React Three Fiber, PlayCanvas, Babylon.js, Spline, Sketchfab, model-viewer, GSAP, Framer Motion, WebGL, WebGPU, Tailwind, WordPress, Shopify, Webflow, Framer Sites, plus `server` and `x-powered-by` headers.
 
-Rebuilds use the detected stack. If the catalog is empty, say so and inspect the saved JS before naming a framework.
+Rebuilds use the detected stack when mode is owned. Transfer and rebuild-for-my-product may retarget (static HTML or Next) if the DNA still holds. If the catalog is empty, say so and inspect the saved JS before naming a framework.
