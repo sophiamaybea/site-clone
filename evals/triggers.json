@@ -1,0 +1,9 @@
+{
+  "skill": "site-clone",
+  "test_cases": [
+    {"input": "Clone this site including all the images", "should_trigger": true},
+    {"input": "Extract the glb from this cloned site", "should_trigger": true},
+    {"input": "Generate a 3D stand-in for the missing model", "should_trigger": true},
+    {"input": "Write a poem about a website", "should_trigger": false}
+  ]
+}

@@ -1,0 +1,8 @@
+{
+  "skill": "site-clone",
+  "test_cases": [
+    {"name": "single_page_with_images", "input": "Clone https://example.com including every image and tell me the tech stack", "assertions": ["Runs scripts/clone_site.py against the named seed with depth 0", "Writes index.html, assets, MANIFEST.json, and TECH.md", "Reports image count and detected technology from the inventory, not a guess"]},
+    {"name": "same_origin_crawl", "input": "Mirror the whole public site at https://example.com, pages and images, offline", "assertions": ["Sets --depth above 0 and a max-pages cap", "Follows only same-origin links", "Records failed assets instead of dropping them"]},
+    {"name": "webgl_without_file", "input": "Clone this Three.js product page and generate the 3D asset if they never shipped a model", "assertions": ["Runs clone_site.py and reads SCENE.md for a glb or gltf", "If none downloaded, runs generate_standin.py and writes an original glTF plus scene/viewer.html", "Does not copy a trademarked mesh"]}
+  ]
+}
