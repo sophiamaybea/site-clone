@@ -11,6 +11,7 @@ Mode: **inspect**, not a public re-host of the author's art or assets.
 - The bundle includes Three.js / WebGL rendering, glTF loading, GSAP and Lenis code. Site DOM has `<canvas class="webgl">`.
 - 3D object URL found in the bundle: `https://sleep-well-creatives.netlify.app/models/SceneWoman.glb`. HTTP HEAD was **200**, content-type `model/gltf-binary`, length **304,104 bytes**.
 - Site also references Webflow-hosted video and MP3 audio.
+- GitHub-hosted Chromium independently confirmed a `webgl2` context, a `canvas.webgl` of 390 × 844 at mobile size, `webgl-ready` status, 14 video elements and seven audio elements. **Twelve** different GLB models returned HTTP 200, as did a Draco decoder WASM. The first browser run produced two screenshots but Playwright's standard screenshot call timed out on other states, so the updated capture tries Chrome DevTools directly and retains all scroll states even on screenshot failure.
 - The apparent `http://localhost:5173/main.js` development script is inside an HTML comment, **not** a broken production script.
 
 **Root cause:** a page-HTML or screenshot-only reconstruction misses the externally hosted motion engine and dynamically referenced GLB resources. GitHub repositories are examples or source code, not an active browser integrated into ChatGPT. The earlier Python mirror saved first-level script files, but did not inspect model references inside minified JS, and its 200 KB signature sample was too short.
