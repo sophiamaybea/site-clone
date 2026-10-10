@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
+  <meta name="theme-color" content="#f4ebd5"/>
+  <meta name="description" content="The Soft Hours: an immersive, interactive WebGL study in light, time and the little worlds we make before sleep. A technical reconstruction experiment."/>
+  <title>The Soft Hours — An Immersive Experiment</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Mono:wght@400;500&family=Fraunces:ital,opsz,wght,SOFT,WONK@0,9..144,600,20,1;0,9..144,700,20,1;1,9..144,600,20,1&display=swap" rel="stylesheet"/>
+</head>
+<body>
+  <div id="fallback-sky" aria-hidden="true"><span class="fallback-moon"></span><span class="fallback-horizon"></span></div>
+  <canvas id="dreamscape" aria-label="Animated three-dimensional floating bedroom, moon and moving objects" role="img"></canvas>
+  <div class="texture" aria-hidden="true"></div>
+  <a class="skip-link" href="#chapter-one">Skip to the story</a>
+
+  <header class="site-header">
+    <a class="brand" href="#opening" aria-label="Return to the beginning">
+      <span class="brand-icon" aria-hidden="true">◕</span><span>SOFT<br/>HOURS</span>
+    </a>
+    <div class="header-center"><span class="header-star">✳</span> A SMALL EXPERIMENT IN REST <span class="header-star">✳</span></div>
+    <div class="top-actions">
+      <button id="sound-toggle" class="ui-button sound-toggle" type="button" aria-pressed="false"><span class="sound-symbol">◌</span> SOUND <span class="sound-state">OFF</span></button>
+      <button id="diag-toggle" class="ui-button" type="button" aria-expanded="false" aria-controls="diagnostics">HOW IT WORKS ↗</button>
+    </div>
+  </header>
+
+  <div class="edge-index" aria-hidden="true"><span>THE NIGHT, IN FOUR MOVEMENTS</span><div class="edge-line"><i id="edge-progress"></i></div><b id="edge-position">01 / 04</b></div>
+
+  <main id="story">
+    <section id="opening" class="chapter chapter--hero" data-scene="0">
+      <div class="hero-kicker"><span class="number-circle">00</span><span>WELCOME TO YOUR OTHER WORLD</span></div>
+      <div class="hero-copy">
+        <span class="type-above">AN INVITATION TO SLOW DOWN</span>
+        <h1>THE<br/><em>SOFT</em><br/>HOURS<span class="hero-dot">.</span></h1>
+        <p>When the day ends, another kind of world begins.<br/>One you can actually move through.</p>
+        <button class="round-cta" id="begin-button" type="button" aria-label="Begin exploring the story">
+          <span class="round-cta-label">STEP INSIDE</span><span aria-hidden="true">↘</span>
+        </button>
+      </div>
+      <div class="hero-side-note">MADE OF LIGHT, COLOUR,<br/>GEOMETRY &amp; A LITTLE IMAGINATION.</div>
+      <div class="hero-bottom"><span>NOT A SCREENSHOT. A LIVING SCENE.</span><span class="scroll-indicator">SCROLL TO WANDER ↓</span><span>2026 / A WEBGL FIELD STUDY</span></div>
+    </section>
+
+    <section id="chapter-one" class="chapter chapter--one" data-scene="1">
+      <div class="chapter-grid">
+        <div class="chapter-label"><span class="number-circle">01</span> A ROOM WITH NO ROOF</div>
+        <div class="chapter-content">
+          <p class="small-preamble">THE FIRST MOVEMENT</p>
+          <h2>Leave the<br/><em>world</em><br/>at the door.</h2>
+          <p class="editorial">A little room floats between waking and dreaming. The furniture is real geometry. The light knows which way you're looking.</p>
+          <div class="chapter-footnote"><i></i> TRY MOVING YOUR POINTER</div>
+        </div>
+      </div>
+      <div class="chapter-bottom-label">NOTHING HERE IS A FLAT BACKGROUND</div>
+    </section>
+
+    <section id="chapter-two" class="chapter chapter--two" data-scene="2">
+      <div class="chapter-grid">
+        <div class="chapter-label"><span class="number-circle">02</span> THE CLOCK LOSES COUNT</div>
+        <div class="chapter-content">
+          <p class="small-preamble">THE SECOND MOVEMENT</p>
+          <h2>Time gets<br/><em>a little</em><br/>strange.</h2>
+          <p class="editorial">Follow the minute hand. The scene breathes, the camera drifts, and everything changes according to where you are in the story.</p>
+          <button class="detail-button" id="clock-button" type="button">GIVE THE CLOCK A NUDGE <span>↗</span></button>
+        </div>
+      </div>
+      <div class="chapter-bottom-label">SCROLL DRIVES THE CAMERA, NOT A VIDEO FILE</div>
+    </section>
+
+    <section id="chapter-three" class="chapter chapter--three" data-scene="3">
+      <div class="chapter-grid">
+        <div class="chapter-label"><span class="number-circle">03</span> ANOTHER SKY APPEARS</div>
+        <div class="chapter-content">
+          <p class="small-preamble">THE THIRD MOVEMENT</p>
+          <h2>Even the<br/><em>dark</em><br/>has depth.</h2>
+          <p class="editorial">There are worlds you only notice once the lights go low. Turn up the night. Watch the little stars rearrange themselves.</p>
+          <div class="chapter-footnote"><i></i> DRAG THE SCENE WITH YOUR POINTER</div>
+        </div>
+      </div>
+      <div class="chapter-bottom-label">ONE SCENE, MANY DIFFERENT STATES</div>
+    </section>
+
+    <section id="chapter-four" class="chapter chapter--four" data-scene="4">
+      <div class="last-note">
+        <div class="chapter-label"><span class="number-circle">04</span> AND BACK TO MORNING</div>
+        <p class="small-preamble">THE FOURTH MOVEMENT</p>
+        <h2>See you<br/><em>on the</em><br/>other side.</h2>
+        <p>These objects, lights and camera moves were built to exist together, not pasted together. That is the difference between recreating a visual and reconstructing an experience.</p>
+        <button id="restart-button" class="restart-button" type="button">TAKE ANOTHER LOOK <span>↗</span></button>
+      </div>
+      <footer class="page-footer"><span>THE SOFT HOURS © 2026</span><span>INDEPENDENT RECONSTRUCTION STUDY</span><span>BUILT WITH THREE.JS, GSAP &amp; LENIS</span></footer>
+    </section>
+  </main>
+
+  <div class="chapter-counter" aria-hidden="true"><span id="current-chapter">00</span><small> / 04</small></div>
+  <div class="hint" id="hint" role="status" aria-live="polite"></div>
+  <aside id="diagnostics" class="diagnostics" aria-label="Live engineering diagnostics" hidden>
+    <div class="diagnostics-top"><div><span class="diagnostics-kicker">THE RECONSTRUCTION LAB</span><h3>Under the <em>surface.</em></h3></div><button id="diag-close" aria-label="Close diagnostics">×</button></div>
+    <p>This is an original implementation using the technical principles observed in the Sleep Well Creatives reference. It does not publish their artwork, logos, scripts or 3D models.</p>
+    <dl>
+      <div><dt>THREE.JS / WEBGL</dt><dd id="metric-renderer">INITIALISING</dd></div>
+      <div><dt>CAMERA Z</dt><dd id="metric-camera">—</dd></div>
+      <div><dt>SCROLL PROGRESS</dt><dd id="metric-scroll">0%</dd></div>
+      <div><dt>ACTIVE CHAPTER</dt><dd id="metric-chapter">00</dd></div>
+      <div><dt>3D OBJECTS</dt><dd id="metric-objects">—</dd></div>
+      <div><dt>ANIMATION FRAMES</dt><dd id="metric-frames">0</dd></div>
+      <div><dt>MOTION</dt><dd id="metric-motion">—</dd></div>
+    </dl>
+    <div class="diagnostics-end">INSPECT · MEASURE · REBUILD · VERIFY<br/>Source: github.com/sophiamaybea/site-clone</div>
+  </aside>
+  <script type="module" src="/src/main.js"></script>
+</body>
+</html>
