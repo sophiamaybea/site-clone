@@ -12,6 +12,8 @@ on:
       - fix/sleepwell-runtime-capture
     paths:
       - scripts/capture_interactive.mjs
+      - scripts/clone_site.py
+      - tests/test_runtime_assets.py
       - .github/workflows/capture-interactive.yml
 permissions:
   contents: read
@@ -30,6 +32,8 @@ jobs:
         run: |
           npm install --no-save --no-package-lock playwright@1.64.0
           npx playwright install --with-deps chromium
+      - name: Verify nested JS-to-GLB discovery
+        run: python3 -m unittest discover -s tests -p 'test_runtime_assets.py' -v
       - name: Syntax check
         run: node --check scripts/capture_interactive.mjs
       - name: Capture browser states and resource requests
