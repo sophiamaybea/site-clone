@@ -44,6 +44,8 @@ python3 scripts/clone_site.py "https://example.com" --out /workspace/artifacts/s
 ```
 
 Same-origin crawl: `--depth 1 --max-pages 12`. SPA already saved: `--html snapshot.html`. Then open the live page and record computed style at 390, 768, and 1440. Screenshots of the original are the diff baseline, not the design source.
+
+**Wild motion / WebGL gate:** HTML fetches are insufficient. Run `.github/workflows/capture-interactive.yml` in GitHub-hosted Chromium (or `node scripts/capture_interactive.mjs <url> <out>` where Playwright/Chromium works). Inspect `capture.json`, network/model requests, errors, WebGL canvas, and multiple scroll-state screenshots before coding. See `references/sleepwell-runtime-case.md` for a verified Webflow + separate Netlify Three.js runtime case. Missing browser dependencies mean capture is **unverified**, not impossible and not completed.
 4. Write the DNA. Fill every field from measurement. Empty is better than a guess.
 
 ```bash

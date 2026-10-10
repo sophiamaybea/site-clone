@@ -21,6 +21,7 @@ ASSET_EXT = {
     ".css", ".js", ".mjs", ".woff", ".woff2", ".ttf", ".otf", ".eot",
     ".glb", ".gltf", ".obj", ".fbx", ".usdz", ".hdr", ".exr", ".ktx2",
     ".basis", ".splat", ".spz", ".ply", ".stl", ".mp4", ".webm", ".mp3",
+    ".wasm", ".bin", ".riv", ".sog", ".json",
 }
 MODEL_EXT = {".glb", ".gltf", ".obj", ".fbx", ".usdz", ".hdr", ".exr", ".ktx2", ".basis", ".splat", ".spz", ".ply", ".stl"}
 SKIP_SCHEMES = {"mailto", "tel", "javascript", "data", "blob"}
@@ -218,7 +219,10 @@ def main(argv: list[str] | None = None) -> int:
         blobs.append(text[:200000])
         candidates = [urljoin(final, item["url"]) for item in parser_html.assets]
         candidates += extract_urls(text, final)
+        # Bounded recursive asset discovery: bundled WebGL runtimes often hold the GLB URLs.
         for asset_url in candidates:
+            if len(seen_assets) >= 350:
+                break
             asset_url, _frag = urldefrag(asset_url)
             if urlparse(asset_url).scheme in SKIP_SCHEMES or asset_url in seen_assets:
                 continue
@@ -236,12 +240,14 @@ def main(argv: list[str] | None = None) -> int:
             assets.append(record)
             if Path(urlparse(final_asset).path).suffix.lower() in MODEL_EXT:
                 models.append(record)
-            if Path(name).suffix.lower() in {".css", ".js", ".mjs", ".gltf"}:
-                blobs.append(data.decode("utf-8", errors="replace")[:200000])
-                if Path(name).suffix.lower() == ".css":
-                    for nested in extract_urls(data.decode("utf-8", errors="replace"), final_asset):
-                        if looks_like_asset(nested):
-                            candidates.append(nested)
+            if Path(name).suffix.lower() in {".css", ".js", ".mjs", ".gltf", ".json"}:
+                source = data.decode("utf-8", errors="replace")
+                # Minified WebGL engines can exceed 1 MB: avoid cutting off stack signatures.
+                blobs.append(source[:2000000])
+                # CSS AND bundled JS may contain scene URLs loaded only after scrolling.
+                for nested in extract_urls(source, final_asset):
+                    if looks_like_asset(nested) and urlparse(nested).scheme in {"http", "https"}:
+                        candidates.append(nested)
         if depth < args.depth:
             for href in parser_html.links:
                 nxt = urljoin(final, href)

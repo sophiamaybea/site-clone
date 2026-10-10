@@ -1,0 +1,52 @@
+name: Inspect interactive reference
+on:
+  workflow_dispatch:
+    inputs:
+      url:
+        description: Public reference URL to inspect (no credentials)
+        required: true
+        default: https://sleep-well-creatives.com/
+        type: string
+  push:
+    branches:
+      - fix/sleepwell-runtime-capture
+    paths:
+      - scripts/capture_interactive.mjs
+      - scripts/verify_source_replay.mjs
+      - scripts/clone_site.py
+      - tests/test_runtime_assets.py
+      - .github/workflows/capture-interactive.yml
+permissions:
+  contents: read
+jobs:
+  capture:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      TARGET_URL: ${{ github.event.inputs.url || 'https://sleep-well-creatives.com/' }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Install Playwright and Chromium dependencies
+        run: |
+          npm install --no-save --no-package-lock playwright@1.64.0
+          npx playwright install --with-deps chromium
+      - name: Verify nested JS-to-GLB discovery
+        run: python3 -m unittest discover -s tests -p 'test_runtime_assets.py' -v
+      - name: Syntax check
+        run: node --check scripts/capture_interactive.mjs
+      - name: Test temporary local source-backed WebGL replay
+        continue-on-error: true
+        run: node scripts/verify_source_replay.mjs "$TARGET_URL" ./interactive-capture
+      - name: Capture browser states and resource requests
+        run: node scripts/capture_interactive.mjs "$TARGET_URL" ./interactive-capture
+      - name: Preserve inspection evidence (not published as a clone)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: interactive-reference-capture
+          path: interactive-capture/
+          retention-days: 3
+          if-no-files-found: warn
