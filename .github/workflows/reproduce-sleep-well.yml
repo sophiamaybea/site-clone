@@ -1,0 +1,74 @@
+name: Mirror authorised Sleep Well Creatives reference
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - .github/workflows/reproduce-sleep-well.yml
+
+permissions:
+  contents: write
+
+concurrency:
+  group: reproduce-sleep-well
+  cancel-in-progress: false
+
+jobs:
+  capture-and-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          persist-credentials: true
+      - name: Capture original markup and production assets
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p sleep-well-creatives/assets
+          curl --fail --location --retry 3 --silent --show-error 'https://sleep-well-creatives.com/' -o sleep-well-creatives/index.html
+          curl --fail --location --retry 3 --silent --show-error 'https://sleep-well-creatives.netlify.app/assets/index-8YjIcPvu.js' -o sleep-well-creatives/assets/visuals.js
+          curl --fail --location --retry 3 --silent --show-error 'https://sleep-well-creatives.netlify.app/assets/index-DQEsxz9V.css' -o sleep-well-creatives/assets/visuals.css
+          curl --fail --location --retry 3 --silent --show-error 'https://cdn.prod.website-files.com/68fcf9490b2a28caaa0e59bc/css/play-sleepwell-creatives.webflow.shared.eb1e20856.css' -o sleep-well-creatives/assets/webflow.css
+          curl --fail --location --retry 3 --silent --show-error 'https://cdn.prod.website-files.com/68fcf9490b2a28caaa0e59bc/js/webflow.751e0867.7161e47da9598001.js' -o sleep-well-creatives/assets/webflow.js
+          python3 - <<'PY'
+          from pathlib import Path
+          p = Path('sleep-well-creatives/index.html')
+          html = p.read_text()
+          replacements = {
+              'https://sleep-well-creatives.netlify.app/assets/index-8YjIcPvu.js': '/assets/visuals.js',
+              'https://sleep-well-creatives.netlify.app/assets/index-DQEsxz9V.css': '/assets/visuals.css',
+              'https://cdn.prod.website-files.com/68fcf9490b2a28caaa0e59bc/css/play-sleepwell-creatives.webflow.shared.eb1e20856.css': '/assets/webflow.css',
+              'https://cdn.prod.website-files.com/68fcf9490b2a28caaa0e59bc/js/webflow.751e0867.7161e47da9598001.js': '/assets/webflow.js',
+          }
+          for before, after in replacements.items():
+              assert before in html, f'Missing original asset: {before}'
+              html = html.replace(before, after)
+          p.write_text(html)
+          assert '<html' in html and 'THE GUIDE FOR A BETTER RESTING' in html
+          assert len(html) > 100_000
+          print(f'HTML captured: {len(html)} characters; local JS/CSS: {len(replacements)}')
+          PY
+      - name: Validate required local dependencies
+        run: |
+          set -euo pipefail
+          test -s sleep-well-creatives/index.html
+          for f in sleep-well-creatives/assets/*.js sleep-well-creatives/assets/*.css; do
+            test -s "$f"
+            echo "$(wc -c < "$f") bytes $f"
+          done
+          if grep -q 'src="http://localhost:' sleep-well-creatives/index.html; then
+            echo 'Local development script reference found' >&2
+            exit 1
+          fi
+      - name: Commit reproducible mirrored site
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add sleep-well-creatives
+          if git diff --cached --quiet; then
+            echo 'No changes to mirror'
+          else
+            git commit -m 'Capture authorised Sleep Well Creatives source and runtime assets'
+            git push
+          fi
