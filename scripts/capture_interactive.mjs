@@ -81,10 +81,10 @@ try {
       navStatus = response?.status() ?? null;
       // Allow Webflow, module JS, GLTF and media preloaders to initialize.
       await page.waitForTimeout(8500);
-      const enter = page.locator('.preloader__enter').first();
+      const enter = page.locator('.preloader__content').first();
       if (await enter.count() && await enter.isVisible().catch(() => false)) {
-        await enter.click({ timeout: 1800 }).catch(() => {});
-        await page.waitForTimeout(1500);
+        await enter.click({ timeout: 3500 }).catch(() => {});
+        await page.waitForTimeout(4000);
       }
       for (let step = 0; step < 7; step++) {
         if (step > 0) {
@@ -93,7 +93,7 @@ try {
         }
         if ([0, 2, 4, 6].includes(step)) {
           const file = viewport.label + '-step-' + step + '.png';
-          await page.screenshot({ path: resolve(out, file), animations: 'allow' });
+          // Always save the browser state, even if a GPU screenshot times out.
           const state = await page.evaluate(() => ({
             y: window.scrollY,
             scrollHeight: document.documentElement.scrollHeight,
@@ -108,7 +108,22 @@ try {
             gsapGlobal: !!window.gsap,
             lenisGlobal: !!window.lenis
           }));
-          captures.push({ viewport: viewport.label, step, screenshot: file, ...state });
+          let screenshot = null;
+          let screenshotError = null;
+          try {
+            // DevTools capture bypasses Playwright's expensive font/animation wait.
+            const cdp = await context.newCDPSession(page);
+            const shot = await Promise.race([
+              cdp.send('Page.captureScreenshot', { format: 'png', fromSurface: true, captureBeyondViewport: false }),
+              new Promise((_, reject) => setTimeout(() => reject(new Error('CDP screenshot timed out')), 10000))
+            ]);
+            await writeFile(resolve(out, file), Buffer.from(shot.data, 'base64'));
+            screenshot = file;
+            await cdp.detach();
+          } catch (err) {
+            screenshotError = String(err).slice(0, 250);
+          }
+          captures.push({ viewport: viewport.label, step, screenshot, screenshotError, ...state });
         }
       }
     } catch (err) {
