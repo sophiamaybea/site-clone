@@ -12,6 +12,7 @@ on:
       - fix/sleepwell-runtime-capture
     paths:
       - scripts/capture_interactive.mjs
+      - scripts/verify_source_replay.mjs
       - scripts/clone_site.py
       - tests/test_runtime_assets.py
       - .github/workflows/capture-interactive.yml
@@ -36,6 +37,9 @@ jobs:
         run: python3 -m unittest discover -s tests -p 'test_runtime_assets.py' -v
       - name: Syntax check
         run: node --check scripts/capture_interactive.mjs
+      - name: Test temporary local source-backed WebGL replay
+        continue-on-error: true
+        run: node scripts/verify_source_replay.mjs "$TARGET_URL" ./interactive-capture
       - name: Capture browser states and resource requests
         run: node scripts/capture_interactive.mjs "$TARGET_URL" ./interactive-capture
       - name: Preserve inspection evidence (not published as a clone)
