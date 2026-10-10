@@ -16,6 +16,8 @@ Mode: **inspect**, not a public re-host of the author's art or assets.
 
 **Root cause:** a page-HTML or screenshot-only reconstruction misses the externally hosted motion engine and dynamically referenced GLB resources. GitHub repositories are examples or source code, not an active browser integrated into ChatGPT. The earlier Python mirror saved first-level script files, but did not inspect model references inside minified JS, and its 200 KB signature sample was too short.
 
+**Verified workaround:** The GitHub-hosted replay job served a freshly fetched copy of the original HTML from a temporary `127.0.0.1` HTTP server, loaded its original externally hosted CSS/JS/GLB assets, and exited successfully only after detecting `webgl-ready`, a real WebGL canvas, and at least one successful model request. This demonstrates that ChatGPT can orchestrate a running browser and reproduce the **source-backed runtime**. It does **not** yet demonstrate a self-contained rebuild, independence from the creator's CDNs, or permission to publish the creator's assets.
+
 ## Working route for ChatGPT + GitHub
 
 1. Run the hosted Chromium capture workflow in this repository, using its public URL input. It captures desktop/mobile scroll states and records network events and WebGL canvas state.
