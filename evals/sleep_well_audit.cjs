@@ -15,6 +15,18 @@ const fs = require('fs');
    page.on('response', response => { if (response.status() >= 400) failing.push(response.status() + ' ' + response.url().slice(0, 120)); });
    const response = await page.goto(url, { waitUntil: 'domcontentloaded', timeout: 60000 });
    await page.waitForTimeout(6500);
+   const wasReady = await page.evaluate(() => !!document.querySelector('.webgl-ready'));
+   const enterTarget = page.locator('.preloader__content');
+   await enterTarget.click({force:true,timeout:10000});
+   await page.waitForTimeout(2700);
+   const entryState = await page.evaluate(() => {
+     const e = document.querySelector('.preloader');
+     return { ready: !!document.querySelector('.webgl-ready'),
+       opacity: e ? getComputedStyle(e).opacity : null,
+       visibility: e ? getComputedStyle(e).visibility : null,
+       display: e ? getComputedStyle(e).display : null };
+   });
+   console.log('ENTRY '+name+' '+viewport.width+' '+JSON.stringify({wasReady,entryState}));
    const dom = await page.evaluate(() => ({
      title: document.title, textLength: document.body.innerText.length,
      pageHeight: document.body.scrollHeight, images: document.images.length,
@@ -28,7 +40,7 @@ const fs = require('fs');
    await page.evaluate(() => window.scrollTo({ top: document.documentElement.scrollHeight * 0.42, behavior: 'instant' }));
    await page.waitForTimeout(1800);
    await page.screenshot({ path: `audit-${name}-${viewport.width}-mid.png`, animations: 'disabled' });
-   records[name] = { http: response.status(), dom, pageErrors, failing: failing.slice(0, 10), failingCount: failing.length };
+   records[name] = { http: response.status(), entryState, dom, pageErrors, failing: failing.slice(0, 10), failingCount: failing.length };
    await context.close();
   }
   const { default: pixelmatch } = await import('pixelmatch');
