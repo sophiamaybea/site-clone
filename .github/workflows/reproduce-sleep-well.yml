@@ -33,6 +33,7 @@ jobs:
           from pathlib import Path
           p = Path('sleep-well-creatives/index.html')
           html = p.read_text()
+          html = html.replace('<!-- <script type="module" defer crossorigin="" src="http://localhost:5173/main.js"></script>  -->', '')
           replacements = {
               'https://sleep-well-creatives.netlify.app/assets/index-8YjIcPvu.js': '/assets/visuals.js',
               'https://sleep-well-creatives.netlify.app/assets/index-DQEsxz9V.css': '/assets/visuals.css',
