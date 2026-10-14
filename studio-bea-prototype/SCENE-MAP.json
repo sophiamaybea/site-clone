@@ -1,0 +1,58 @@
+{
+  "project": "Studio Bea Sophia Somewhere, Down There",
+  "method": "replace one scene inside the preserved Sleep Well Creatives production runtime at a time",
+  "status": "reference cloned; collage atlas staged; redesign not yet applied",
+  "source": "https://sleep-well-creatives.com/",
+  "original_reference_folder": "../sleep-well-creatives/",
+  "chapters": [
+    {
+      "number": 1,
+      "new": "Space and floating astronaut",
+      "mode": "replace the original introduction visual, not a static card",
+      "assets": [
+        "astronaut"
+      ]
+    },
+    {
+      "number": 2,
+      "new": "Descent through drawings and clouds",
+      "mode": "retain scroll-progress and camera movement; replace texture/materials",
+      "assets": [
+        "cloud-a",
+        "cloud-b"
+      ]
+    },
+    {
+      "number": 3,
+      "new": "Night city of umbrella people",
+      "mode": "populate multiple Z layers of paper architecture and walking collage puppets",
+      "assets": [
+        "city-a",
+        "city-b",
+        "city-c",
+        "city-d",
+        "people-a",
+        "people-b",
+        "people-c",
+        "people-d",
+        "people-e",
+        "people-f",
+        "people-g",
+        "people-h"
+      ]
+    },
+    {
+      "number": 4,
+      "new": "The Page Gallery",
+      "mode": "camera carries visitor through door to a gallery; spatial type and actual poems",
+      "assets": []
+    },
+    {
+      "number": 5,
+      "new": "Independent creative studio",
+      "mode": "concluding room and call to action",
+      "assets": []
+    }
+  ],
+  "disclosure": "Studio artwork is staged separately; the original site's protected/owned third-party design has not yet been reskinned."
+}
