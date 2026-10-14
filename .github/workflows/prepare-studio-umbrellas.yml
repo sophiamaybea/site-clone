@@ -1,0 +1,33 @@
+name: Prepare user-supplied umbrella puppets
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'studio-bea-pear-hybrid/tools/prepare_umbrella_assets.py'
+      - '.github/workflows/prepare-studio-umbrellas.yml'
+permissions:
+  contents: write
+jobs:
+  prepare:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          persist-credentials: true
+      - name: Prepare Pillow, numpy and OpenCV
+        run: |
+          python -m pip install --disable-pip-version-check pillow numpy opencv-python-headless
+      - name: Download and matte nine JPEGs, preserve transparent PNG
+        run: python studio-bea-pear-hybrid/tools/prepare_umbrella_assets.py
+      - name: Commit all ten genuine cutouts to source control
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add studio-bea-pear-hybrid/assets/umbrellas/
+          if git diff --cached --quiet; then
+            echo "No changed umbrella files"
+          else
+            git commit -m "Add ten transparent umbrella characters supplied by studio owner"
+            git push origin HEAD:main
+          fi
