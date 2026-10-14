@@ -123,7 +123,7 @@ button{font:inherit}button:focus-visible,a:focus-visible{outline:2px solid #bd8b
 .site-head{padding:22px 22px}.site-head .brand{font-size:17px}.site-head nav{gap:13px}.site-head nav a{font-size:9px}.site-head nav a:nth-child(2){display:none}.site-head .nav-num{display:none}
 .story-title{left:7%;top:29%;width:88%}.story-title h1{font-size:clamp(66px,14.9vw,128px)}.story-title .signature{max-width:260px;font-size:10px}
 .story-caption{top:19%;left:7%;width:85%}.story-caption h2{font-size:clamp(75px,12vw,120px)}
-.story-line{top:18%;right:6%;width:86%}.story-line h2{font-size:clamp(80px,14vw,150px)}
+.story-line{top:13%;right:6%;width:86%}.story-line h2{font-size:clamp(80px,14vw,150px)}
 #astronaut{right:4%;top:13%;height:34vh;max-width:52vw}
 .f-woman{left:52%;height:55vh}.f-red{left:-20%;height:67vh}.f-man{left:8%;height:48vh}
 .f-blue{left:71%;height:39vh}.f-front{left:86%;height:45vh}.f-black{left:-17%;height:54vh}
@@ -138,7 +138,7 @@ button{font:inherit}button:focus-visible,a:focus-visible{outline:2px solid #bd8b
 .story-title{top:30%}.story-title h1{font-size:clamp(61px,15.1vw,78px)}.story-title .kicker{font-size:9px;max-width:240px;margin-bottom:29px}
 .story-title .signature{margin-top:25px;max-width:235px}
 .story-caption h2{font-size:clamp(63px,12vw,91px)}.story-caption .kicker{margin-bottom:25px}
-.story-line h2{font-size:clamp(68px,13vw,100px)}
+.story-line h2{font-size:clamp(59px,12.7vw,92px);line-height:.83}
 .f-woman{left:43%;height:52vh}.f-red{left:-37%;height:69vh}.f-black{left:-30%;height:51vh}
 #astronaut{right:-9%;top:15%;height:32vh}
 .gallery-story{top:20%;width:91%}.gallery-story h2{font-size:clamp(69px,13vw,100px)}
@@ -168,11 +168,11 @@ button{font:inherit}button:focus-visible,a:focus-visible{outline:2px solid #bd8b
 <div class="scene" id="rain-scene"><img src="/assets/cinema/rain.webp" id="rain-photo" alt=""><div id="rain-treatment"></div></div>
 <img id="astronaut" alt="" aria-hidden="true">
 <div id="figure-field" aria-hidden="true">
-<img class="figure f-woman" data-from=".36" data-depth=".37" data-speed="-.03" src="/assets/umbrellas/woman-white.webp" alt="">
-<img class="figure f-red" data-from=".46" data-depth=".83" data-speed=".047" src="/assets/umbrellas/woman-red.webp" alt="">
-<img class="figure f-man" data-from=".3" data-depth=".22" data-speed=".026" src="/assets/umbrellas/man-back-black.webp" alt="">
-<img class="figure f-blue" data-from=".37" data-depth=".25" data-speed="-.027" src="/assets/umbrellas/woman-blue-back.webp" alt="">
-<img class="figure f-front" data-from=".43" data-depth=".48" data-speed="-.032" src="/assets/umbrellas/woman-front-black.webp" alt="">
+<img class="figure f-woman" data-from=".28" data-depth=".37" data-speed="-.03" src="/assets/umbrellas/woman-white.webp" alt="">
+<img class="figure f-red" data-from=".43" data-depth=".83" data-speed=".047" src="/assets/umbrellas/woman-red.webp" alt="">
+<img class="figure f-man" data-from=".25" data-depth=".22" data-speed=".026" src="/assets/umbrellas/man-back-black.webp" alt="">
+<img class="figure f-blue" data-from=".31" data-depth=".25" data-speed="-.027" src="/assets/umbrellas/woman-blue-back.webp" alt="">
+<img class="figure f-front" data-from=".36" data-depth=".48" data-speed="-.032" src="/assets/umbrellas/woman-front-black.webp" alt="">
 <img class="figure f-black" data-from=".49" data-depth=".57" data-speed=".038" src="/assets/umbrellas/man-side-grey.webp" alt="">
 </div>
 <div class="text-stage">
@@ -268,14 +268,14 @@ function render(p,now){
  const open=1-smooth(.14,.26,p),enter=smooth(.13,.45,p),cityVisible=fade(.17,.38,.67,.87,p);
  const late=smooth(.56,.82,p),paper=smooth(.78,.98,p);
  intro.style.opacity=open;move(intro,-45*enter,-vh*.09*enter,1+.065*enter);
- astronaut.style.opacity=fade(0,.03,.20,.34,p)*.9;
+ astronaut.style.opacity=(1-smooth(.17,.31,p))*.9;
  move(astronaut,mx*6+vw*.12*enter,-vh*.24*enter+my*4+Math.sin(now*.00035)*11,1+.30*enter,-8+enter*31);
  $('night-photo').style.transform='translate3d('+px(mx*6)+'px,'+px(-vh*.08*enter)+'px,0) scale('+px(1.09+.11*enter)+')';
  city.style.opacity=cityVisible;
  $('city-photo').style.transform='translate3d('+px(-mx*11)+'px,'+px(vh*.11*(1-enter)-vh*.09*late)+'px,0) scale('+px(.99+.21*late)+')';
  rain.style.opacity=fade(.49,.68,.79,.91,p);
  $('rain-photo').style.transform='translate3d('+px(mx*-15)+'px,'+px(-vh*.07*late)+'px,0) scale('+px(1.04+.13*late)+')';
- cityCopy.style.opacity=fade(.33,.44,.56,.69,p);move(cityCopy,0,22*(1-smooth(.33,.47,p)));
+ cityCopy.style.opacity=fade(.21,.29,.56,.69,p);move(cityCopy,0,22*(1-smooth(.33,.47,p)));
  peopleCopy.style.opacity=fade(.61,.70,.79,.89,p);move(peopleCopy,0,18*(1-smooth(.62,.73,p)));
  for(const [i,f] of figures.entries()){
   const fstart=Number(f.dataset.from),depth=Number(f.dataset.depth),speed=Number(f.dataset.speed);
