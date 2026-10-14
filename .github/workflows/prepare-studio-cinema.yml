@@ -1,0 +1,32 @@
+name: Prepare editorial photographic art
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'studio-bea-pear-hybrid/tools/prepare_cinema.py'
+      - '.github/workflows/prepare-studio-cinema.yml'
+permissions:
+  contents: write
+jobs:
+  prepare:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          persist-credentials: true
+      - name: Install image processing
+        run: python -m pip install --disable-pip-version-check pillow
+      - name: Retrieve licensed source photography and optimise for the web
+        run: python studio-bea-pear-hybrid/tools/prepare_cinema.py
+      - name: Commit site-only visuals
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add studio-bea-pear-hybrid/assets/cinema/
+          if git diff --cached --quiet; then
+            echo "No image changes"
+          else
+            git commit -m "Add sourced and graded photographic scenes for studio collage"
+            git push origin HEAD:main
+          fi
