@@ -1,0 +1,31 @@
+name: Audit Studio Bea Pear-inspired prototype
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'studio-bea-pear-hybrid/**'
+      - 'evals/studio_bea_pear_hybrid.cjs'
+      - '.github/workflows/studio-bea-pear-hybrid.yml'
+permissions:
+  contents: read
+jobs:
+  browser:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          persist-credentials: false
+      - name: Install browser
+        run: |
+          npm install --no-save --no-audit --no-fund playwright@1.64.0
+          npx playwright install --with-deps chromium
+      - name: Audit cinematic film and client-facing sections
+        run: node evals/studio_bea_pear_hybrid.cjs
+      - name: Archive evidence
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: studio-bea-pear-hybrid-visual-evidence
+          path: pear-hybrid-evidence/
+          if-no-files-found: ignore
