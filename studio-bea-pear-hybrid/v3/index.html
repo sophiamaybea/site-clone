@@ -76,6 +76,8 @@ button{font:inherit}button:focus-visible,a:focus-visible{outline:2px solid #bd8b
 #story-progress .progress-track{width:86px;height:1px;background:rgba(255,255,255,.4);position:relative}
 #story-progress .progress-track i{position:absolute;left:0;top:-1px;width:0;height:3px;background:white}
 #story-progress .chapter-count{min-width:85px}
+#people-copy:before{content:"";position:absolute;inset:-50px -45px -70px -35px;z-index:-1;pointer-events:none;background:radial-gradient(ellipse at 35% 38%,rgba(7,17,31,.63),rgba(7,17,31,.24) 58%,transparent 82%)}
+
 #scroll-cue{position:absolute;bottom:32px;right:clamp(25px,4.5vw,80px);z-index:32;text-align:right;font:10px var(--mono);letter-spacing:.13em;text-transform:uppercase;color:white;mix-blend-mode:difference}
 #scroll-cue span{display:inline-block;margin-left:17px}
 #load-shield{position:absolute;inset:0;z-index:40;background:#111c31;display:flex;justify-content:center;align-items:center;transition:opacity .7s,visibility .7s}
@@ -123,7 +125,7 @@ button{font:inherit}button:focus-visible,a:focus-visible{outline:2px solid #bd8b
 .site-head{padding:22px 22px}.site-head .brand{font-size:17px}.site-head nav{gap:13px}.site-head nav a{font-size:9px}.site-head nav a:nth-child(2){display:none}.site-head .nav-num{display:none}
 .story-title{left:7%;top:29%;width:88%}.story-title h1{font-size:clamp(66px,14.9vw,128px)}.story-title .signature{max-width:260px;font-size:10px}
 .story-caption{top:19%;left:7%;width:85%}.story-caption h2{font-size:clamp(75px,12vw,120px)}
-.story-line{top:13%;right:6%;width:86%}.story-line h2{font-size:clamp(80px,14vw,150px)}
+.story-line{top:13%;right:7%;width:82%;text-shadow:0 3px 32px rgba(4,14,29,.92)}.story-line h2{font-size:clamp(80px,14vw,150px)}
 #astronaut{right:4%;top:13%;height:34vh;max-width:52vw}
 .f-woman{left:52%;height:55vh}.f-red{left:-20%;height:67vh}.f-man{left:8%;height:48vh}
 .f-blue{left:71%;height:39vh}.f-front{left:86%;height:45vh}.f-black{left:-17%;height:54vh}
@@ -138,9 +140,9 @@ button{font:inherit}button:focus-visible,a:focus-visible{outline:2px solid #bd8b
 .story-title{top:30%}.story-title h1{font-size:clamp(61px,15.1vw,78px)}.story-title .kicker{font-size:9px;max-width:240px;margin-bottom:29px}
 .story-title .signature{margin-top:25px;max-width:235px}
 .story-caption h2{font-size:clamp(63px,12vw,91px)}.story-caption .kicker{margin-bottom:25px}
-.story-line h2{font-size:clamp(59px,12.7vw,92px);line-height:.83}
+.story-line h2{font-size:clamp(57px,11.6vw,85px);line-height:.86}
 .f-woman{left:43%;height:52vh}.f-red{left:-37%;height:69vh}.f-black{left:-30%;height:51vh}
-#astronaut{right:-9%;top:15%;height:32vh}
+#astronaut{right:0%;top:52%;height:29vh;max-width:52vw}
 .gallery-story{top:20%;width:91%}.gallery-story h2{font-size:clamp(69px,13vw,100px)}
 .section-divider{font-size:9px;padding:25px}.section-divider span:last-child{display:none}
 .featured{padding:65px 20px}.project-art{min-height:430px}.project-details{min-height:460px;padding:33px}.project-details h3{font-size:75px}.project-art .art-seal{width:95px;height:95px;top:27px;left:25px}
