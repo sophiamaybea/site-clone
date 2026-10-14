@@ -14,7 +14,7 @@ BASE.mkdir(parents=True,exist_ok=True)
 SOURCES=[
  ("sky","https://images.unsplash.com/photo-1419242902214-272b3f66ee7a?auto=format&fit=crop&w=2200&q=82",2100),
  ("city","https://images.unsplash.com/photo-1690741818722-3f96fc94f678?auto=format&fit=crop&w=2300&q=82",2200),
- ("rain","https://unsplash.com/photos/CrHhvF8qotQ/download?force=true",2000)
+ ("rain","https://images.unsplash.com/photo-1571366657709-88005f3a2e0a?auto=format&fit=crop&w=2000&q=82",2000)
 ]
 credits=["# Photograph attribution and usage","",
 "These photographs are incorporated into composed site scenes under the Unsplash License (https://unsplash.com/license).",
