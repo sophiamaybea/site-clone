@@ -188,13 +188,13 @@ function apply(p,time){
  move(street,0,H*.12*(1-movement),0,.78+arrival*.8);
  foredrop.style.opacity=String(cityOn);
  move(foredrop,mouseX*12,-H*.06*arrival,0,1+arrival*.43);
- paperEdge.style.opacity=String(cityOn*.8);
+ paperEdge.style.opacity=String(cityOn*.33);
  walkers.forEach((w,i)=>{
   const depth=Number(w.dataset.depth),baseX=Number(w.dataset.x),baseY=Number(w.dataset.y),speed=Number(w.dataset.speed);
   const h=Math.min(H*.69,W*.99)*(.38+depth*.65)*(1+arrival*depth*.85);
   const y=H*baseY+(1-land)*H*.19-arrival*H*.06;
   w.style.height=h+'px';w.style.maxHeight='none';w.style.left=baseX*W+'px';w.style.bottom='auto';w.style.top=y-h/2+'px';
-  w.style.opacity=String(cityOn*Math.min(1,.58+depth*.55));
+  w.style.opacity=String(cityOn*Math.min(1,.82+depth*.3));
   move(w,arrival*speed*W+mouseX*6*depth,Math.sin(time*.001+i*2.5)*2.7*(.3+depth),0,1,Math.sin(time*.00065+i)*(.25+depth*.75));
  });
  document.getElementById('rain').style.opacity=String(cityOn);
@@ -210,7 +210,7 @@ function apply(p,time){
  document.getElementById('chapter').textContent=p<.33?'01 / 03':p<.80?'02 / 03':'03 / 03';
  document.getElementById('scroll-instruction').style.opacity=String(1-fade(.90,1,p));
 }
-function tick(ms){t=ms;current=mix(current,target,.095);if(Math.abs(target-current)<.0001)current=target;apply(current,ms);raf=requestAnimationFrame(tick)}
+function tick(ms){t=ms;current=target;apply(current,ms);raf=requestAnimationFrame(tick)}
 document.addEventListener('visibilitychange',()=>{if(document.hidden){cancelAnimationFrame(raf);raf=0}else if(ready&&!reduced&&!raf){raf=requestAnimationFrame(tick)}});
 addEventListener('scroll',read,{passive:true});addEventListener('resize',resize,{passive:true});
 addEventListener('pointermove',e=>{mouseX=(e.clientX/W-.5)*2;mouseY=(e.clientY/H-.5)*2},{passive:true});
