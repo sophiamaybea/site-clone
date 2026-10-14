@@ -13,6 +13,17 @@ const OUT='pear-hybrid-evidence';fs.mkdirSync(OUT,{recursive:true});
    const result=await page.goto(SITE,{waitUntil:'domcontentloaded',timeout:60000});
    await page.waitForFunction(()=>document.getElementById('loading').classList.contains('is-hidden'),null,{timeout:20000});
    await page.waitForTimeout(650);
+   const umbrellaCount=await page.evaluate(()=>window.__studioUmbrellaCount||0);
+   const spriteFiles=await Promise.all([
+     'woman-white','man-back-black','woman-front-black','woman-green','man-green-back',
+     'woman-red','woman-blue-back','man-side-grey','woman-dark-side','man-front-black'
+   ].map(async name=>{
+     const response=await page.request.get(SITE+'assets/umbrellas/'+name+'.webp');
+     return {name,status:response.status()};
+   }));
+   if(umbrellaCount!==10||spriteFiles.some(f=>f.status!==200)){
+     throw new Error('Supplied umbrella sprites not loaded: '+JSON.stringify({umbrellaCount,spriteFiles}));
+   }
    const checks=[];
    for(const f of [0,.13,.30,.47,.57,.71,.87,.98]){
     await page.evaluate(f=>{
@@ -33,7 +44,7 @@ const OUT='pear-hybrid-evidence';fs.mkdirSync(OUT,{recursive:true});
    await page.evaluate(()=>document.querySelector('#work').scrollIntoView({behavior:'instant'}));
    await page.waitForTimeout(400);
    await page.screenshot({path:`${OUT}/${viewport.width}-work.png`,animations:'disabled'});
-   const data={viewport,http:result.status(),checks,errors,failures,
+   const data={viewport,http:result.status(),checks,umbrellaCount,spriteFiles,errors,failures,
      workLink:await page.locator('.work-case a[href*="pagegalleryjournal.com"]').count(),
      contactLink:await page.locator('.contact a[href^="mailto:"]').count()};
    console.log('RESULT',JSON.stringify({width:viewport.width,http:data.http,chapters:checks.map(x=>x.chapter),
