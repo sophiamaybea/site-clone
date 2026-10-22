@@ -17,7 +17,9 @@ for (const [label,width,height] of [['desktop',1440,900],['tablet',820,1100],['m
  const laptop=await page.locator('.cafe-laptop-screen').count(); if(!laptop)issues.push('Photographic laptop screen missing');
  const overflow=await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth+2);
  if(overflow){const details=await page.evaluate(()=>({scrollWidth:document.documentElement.scrollWidth,innerWidth,offenders:[...document.querySelectorAll('body *')].filter(el=>{const r=el.getBoundingClientRect();return r.right>innerWidth+2||r.left< -2}).slice(0,14).map(el=>({tag:el.tagName,className:String(el.className).slice(0,65),right:Math.round(el.getBoundingClientRect().right),left:Math.round(el.getBoundingClientRect().left)}))}));console.log('Overflow diagnostic:',JSON.stringify(details))}
+ if(overflow) issues.push("Unexpected horizontal scrolling");
  console.log(JSON.stringify({label,overflow,issues}));
+ if(issues.length)process.exitCode=1;
  await page.close();
 }
 await browser.close();
