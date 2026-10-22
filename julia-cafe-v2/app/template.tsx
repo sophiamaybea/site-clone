@@ -29,7 +29,7 @@ export default function Template({ children }: { children: React.ReactNode }) {
       .cafe-laptop-dock i{display:block;width:clamp(3px,.58vw,9px);aspect-ratio:1;border-radius:2px;background:#db8fa9}
       .cafe-laptop-dock i:nth-child(2n){background:#8baac8}
       .cafe-laptop-dock i:nth-child(3n){background:#e8c772}
-      @media(max-width:650px){.cafe-laptop-menu{font-size:2px}.cafe-laptop-icons i{width:3px}.cafe-laptop-folders i{width:4px}.cafe-laptop-dock i{width:3px}.cafe-floor{display:none}}
+      @media(max-width:650px){.bio{overflow-x:clip}.cafe-laptop-menu{font-size:2px}.cafe-laptop-icons i{width:3px}.cafe-laptop-folders i{width:4px}.cafe-laptop-dock i{width:3px}.cafe-floor{display:none}}
     `}</style>
     {scene && createPortal(<div className="cafe-laptop-screen" aria-hidden="true">
       <div className="cafe-laptop-menu"><span>Finder&nbsp;&nbsp;File&nbsp;&nbsp;Edit&nbsp;&nbsp;View</span><span>Thu 22&nbsp;&nbsp;10:41 AM</span></div>
