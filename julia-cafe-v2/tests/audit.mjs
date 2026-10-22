@@ -14,7 +14,7 @@ for (const [label,width,height] of [['desktop',1440,900],['tablet',820,1100],['m
   await page.keyboard.press('Escape');
   if(await page.locator('.experience-panel').count())issues.push(`${key} modal did not close`);
  }
- const overflow=await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth+2);
+ const laptop=await page.locator('.cafe-laptop-screen').count(); if(!laptop)issues.push('Photographic laptop screen missing');\n const overflow=await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth+2);
  console.log(JSON.stringify({label,overflow,issues}));
  await page.close();
 }
