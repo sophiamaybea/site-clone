@@ -1,0 +1,50 @@
+name: Julia Cafe v2 Browser QA
+on:
+  push:
+    branches:
+      - julia-cafe-nextjs-v2
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c
+      - name: Install app and browser
+        working-directory: julia-cafe-v2
+        run: |
+          npm install --no-audit --no-fund
+          npm install --no-save --no-audit --no-fund playwright@1.56.1
+          npx playwright install --with-deps chromium
+      - name: Verify all interactions at three viewport sizes
+        working-directory: julia-cafe-v2
+        env:
+          NEXT_PUBLIC_BASE_URL: https://julia-cafe-interactive-clone.vercel.app
+        run: node tests/audit.mjs
+      - name: Capture reference and reconstruction screenshots
+        working-directory: julia-cafe-v2
+        run: |
+          node --input-type=module <<'JS'
+          import {chromium} from 'playwright';
+          const browser=await chromium.launch({headless:true});
+          for(const [name,url] of [['original','https://www.juliaalvarenga.com/'],['reconstruction','https://julia-cafe-interactive-clone.vercel.app/']]){
+            const page=await browser.newPage({viewport:{width:1440,height:900},deviceScaleFactor:1,reducedMotion:'reduce'});
+            try{
+              await page.goto(url,{waitUntil:'domcontentloaded',timeout:45000});
+              await page.screenshot({path:'tests/'+name+'-desktop-hero.png',animations:'disabled'});
+              await page.evaluate(()=>scrollTo(0,document.body.scrollHeight-850));
+              await page.waitForTimeout(1100);
+              await page.screenshot({path:'tests/'+name+'-desktop-cafe.png',animations:'disabled'});
+              console.log(name,'title:',await page.title(),'images:',await page.locator('img').count());
+            }catch(e){console.log(name,'screenshot failed:',String(e));}
+            await page.close();
+          }
+          await browser.close();
+          JS
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: julia-cafe-v2-qa-screenshots
+          path: julia-cafe-v2/tests/*.png
